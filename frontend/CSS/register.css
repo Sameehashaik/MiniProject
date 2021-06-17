@@ -6,22 +6,10 @@ html,body{
     font-family: 'Numans', sans-serif;
 }
     
-.container{
-    height: 100%;
-    align-content: center;
-}
-    
 .card{
     height: 500px;
-    margin-top: auto;
-    margin-bottom: auto;
     width: 800px;
     background-color: rgba(0,0,0,0.5) !important;
-}
-    
-.card-header h3{
-    color: white;
-    text-align:  center;
 }
     
 input:focus{
@@ -31,24 +19,10 @@ input:focus{
 }
         
 .signin_btn{
-    color: black;
     background-color:indigo;
-    width: 100px;
 }
     
 .signin_btn:hover{
     color: black;
     background-color: white;
-}
-    
-.links{
-    color: white;
-}
-    
-.links a{
-    margin-left: 5px;
-}
-
-.color{
-        color: black;
 }
