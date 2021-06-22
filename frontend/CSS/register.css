@@ -7,7 +7,7 @@ html,body{
 }
     
 .card{
-    height: 500px;
+    height: 575px;
     width: 800px;
     background-color: rgba(0,0,0,0.5) !important;
 }
@@ -19,7 +19,7 @@ input:focus{
 }
         
 .signin_btn{
-    background-color:indigo;
+    background-color:rgb(4, 130, 0);
 }
     
 .signin_btn:hover{

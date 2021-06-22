@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	<!--Custom styles-->
-	<link rel="stylesheet" type="text/css" href="/MiniProject/frontend/CSS/register.css">
+	<link rel="stylesheet" type="text/css" href="/frontend/CSS/register.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,55 +25,59 @@
 				<h3 class="text-white text-center mt-2">Register</h3>
 			</div>
 			<div class="card-body">
-				<form>
-                    <div class="row">
-                        <div class="input-group form-group mt-2 col">
+				<form action="/register" method="post">
+					<div class="row">
+                    <div class="col ml-3">
+                        <div class="input-group form-group mt-2 row">
 						    <input type="text" class="form-control" placeholder="Userame">
 					    </div>
-                        <div class="input-group form-group mt-2 col">
+                        <div class="input-group form-group mt-3 row">
 						    <input type="email" class="form-control" placeholder="Email">
 					    </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group form-group mt-3 col">
+						<div class="input-group form-group mt-3 row">
 						    <input type="password" class="form-control" placeholder="Password">
 					    </div>
-                        <div class="input-group form-group mt-3 col">
+						
+						
+                    </div>
+                    <div class="col">
+                        <div class="input-group form-group mt-2 row">
 						    <input type="url" class="form-control" placeholder="HackerRank Profile Url">
 					    </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group form-group mt-3 col">
+						<div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="HackerEarth Profile Url">
 					    </div>
-                        <div class="input-group form-group mt-3 col">
+						<div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="CodeChef Profile Url">
 					    </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group form-group mt-3 col">
+						<div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="CodeForces Profile Url">
 					    </div>
-                        <div class="input-group form-group mt-3 col">
+                        <div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="LeetCode Profile Url">
 					    </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group form-group mt-3 col">
+						<div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="InterviewBit Profile Url">
 					    </div>
-                        <div class="input-group form-group mt-3 col">
+                        <div class="input-group form-group mt-3 row">
 						    <input type="url" class="form-control" placeholder="Spoj Profile Url">
 					    </div>
+						
                     </div>
-					<div class="form-group mt-3">
-						<input type="submit" value="Sign Up" class="btn float-right signin_btn text-black w-20">
+					<div class="container mr-3">
+						<div class="form-group mt-3 mx-auto">
+							<input type="submit" value="Sign Up" class="btn float-right signin_btn text-black w-20">
+						</div> 
 					</div>
+					<div class="card-footer">
+						<div class="links text-white">
+							Signed Up?<a class="ml-2 text-info" href="/MiniProject/frontend/HTML/login.html">Log In</a>
+						</div>
+					</div>
+					
 				</form>
-                <div class="card-footer">
-				<div class="links mt-3 text-white">
-					Signed Up?<a class="ml-2 text-info" href="/MiniProject/frontend/HTML/login.html">Log In</a>
-				</div>
+				
+               
 			</div>
 			</div>
 			

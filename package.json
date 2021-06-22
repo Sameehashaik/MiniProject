@@ -1,0 +1,30 @@
+{
+  "name": "MiniProject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sameehashaik/MiniProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sameehashaik/MiniProject/issues"
+  },
+  "homepage": "https://github.com/Sameehashaik/MiniProject#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.10",
+    "connect-mongodb-session": "^2.4.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.12.14",
+    "nodemon": "^2.0.7"
+  }
+}
