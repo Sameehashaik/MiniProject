@@ -34,6 +34,27 @@ const Userschema = new schema({
     },
     spoj_profile:{
         type: String
+    },
+    hackerrank_solved:{
+        type: Number
+    },
+    hackerearth_solved:{
+        type: Number
+    },
+    codechef_solved:{
+        type: Number
+    },
+    codeforces_solved:{
+        type: Number
+    },
+    leetcode_solved:{
+        type: Number
+    },
+    interviewbit_solved:{
+        type: Number
+    },
+    spoj_solved:{
+        type: Number
     }
     
 
