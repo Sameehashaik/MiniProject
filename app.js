@@ -8,7 +8,12 @@ const cf=require('./Scrapers/codeforces');
 const cc=require('./Scrapers/codechef');
 const he=require('./Scrapers/hackerearth');
 const ib=require('./Scrapers/interviewbt');
+const lc =  require('./Scrapers/leetcode');
+const sp = require('./Scrapers/spoj')
 let userLib=require('./lib/userlib');
+
+
+
 const app = express();
 app.use(express.static(__dirname));
 app.use(express.urlencoded({extended: true}));
@@ -23,6 +28,32 @@ var store = new MongoDBStore({
    uri: 'mongodb+srv://tenor06:Abhishyant22102004@cluster0.mw1u9.mongodb.net/CRUD?retryWrites=true&w=majority',
    collection: 'Sessions'
  });
+
+ var store = new MongoDBStore({
+  uri: 'mongodb+srv://tenor06:Abhishyant22102004@cluster0.mw1u9.mongodb.net/stopstalk?retryWrites=true&w=majority',
+  collection: 'mySessions'
+});
+
+
+ app.use(session({
+  name: 'sid',
+  resave: false,
+  saveUninitialized: false,
+  secret: 'stopstalk123',
+   cookie: {
+       maxAge: 1000*60*60,
+       sameSite: true,
+       secure: false
+   },
+   store: store
+}))
+
+var isAuth=(req,res,next)=>{
+  if(req.session.user)
+    next()
+  else
+    res.redirect('/login')  
+}
 
 // Start the server
 app.listen(PORT, function(){
@@ -50,43 +81,30 @@ app.get("/login", function(req, res){
     var hrsolved=0;
     var hesolved=0;
     var ibsolved=0;
-    var ccurl=data.codechef_profile;
-    var cfurl=data.codeforces_profile;
-    var heurl=data.hackerearth_profile;
-    const iburl=data.interviewbit_profile;
-    await cc.getCodechef(ccurl,function(result){
-      console.log(result.solved);
-      ccsolved=result.solved;
-    })
-    await cf.getCodeforces(cfurl,function(result){
-      console.log(result.count);
-      cfsolved=result.count;
-    })
-    await he.getHackerearth(heurl,function(result){
-      console.log(result.count);
-      hesolved=result.count;
-    })
-    await ib.getInterviewBit(iburl,function(result){
-      console.log('ibres',result);
-      ibsolved=result.score;
-    })
-   console.log(data);
-   console.log(cfsolved);
-   console.log(ccsolved);
+   
+    var ccurl = `https://www.codechef.com/users/${data.codechef_profile}`
+    var cfurl = `https://codeforces.com/profile/${data.codeforces_profile}`
+    var heurl =  `https://www.hackerearth.com/users/pagelets/${data.hackerearth_profile}/hackerearth-profile-overview/`
+    var iburl = `https://www.interviewbit.com/profile/${data.interviewbit_profile}`
+    var lcurl = `https://competitive-coding-api.herokuapp.com/api/leetcode/${data.leetcode_profile}`
+    var spurl = `https://www.spoj.com/users/${data.spoj_profile}/`
+
    const usr= new user({
       username: data.username,
       email: data.email,
       password: data.password,
       hackerrank_profile: data.hackerrank_profile,
-      hackerearth_profile: data.hackerearth_profile,
-      codechef_profile: data.codechef_profile,
-      codeforces_profile: data.codeforces_profile,
-      interviewbit_profile: data.interviewbit_profile,
+      hackerearth_profile: heurl,
+      codechef_profile: ccurl,
+      codeforces_profile: cfurl,
+      leetcode_profile: lcurl,
+      interviewbit_profile: iburl,
       spoj_profile: data.spoj_profile,
       hackerrank_solved: hrsolved,
       hackerearth_solved: hesolved,
       codechef_solved: ccsolved,
       codeforces_solved: cfsolved,
+      leetcode_solved: lcsolved,
       interviewbit_solved: ibsolved,
       spoj_solved: spojsolved
   })
@@ -98,15 +116,67 @@ app.post('/login',  function(req, res){
        var data = req.body
        console.log(data);
        //console.log(usr);
-       userLib.isUserValid(data,function(resultJson){
+       userLib.isUserValid(data, async function(resultJson){
          console.log(resultJson);
          if(resultJson.success==true){
-            console.log("I got in ");
+            req.session.user = data.username 
+
+            var ccsolved=0;
+            var cfsolved=0;
+            var lcsolved=0;
+            var spojsolved=0;
+            var hrsolved=0;
+            var hesolved=0;
+            var ibsolved=0;        
+            var stat = resultJson.stats
+            var ccurl=stat.codechef_profile;
+            var cfurl=stat.codeforces_profile;
+            var heurl=stat.hackerearth_profile;
+            var lcurl = stat.leetcode_profile;
+            var spurl = stat.spoj_profile;
+            console.log(lcurl);
+            const iburl=stat.interviewbit_profile;
+            await cc.getCodechef(ccurl,function(result){
+              console.log(result.solved);
+              ccsolved=result.solved;
+            })
+            await cf.getCodeforces(cfurl,function(result){
+              console.log(result.count);
+              cfsolved=result.count;
+            })
+            await he.getHackerearth(heurl,function(result){
+              console.log("HE Solved:"+result.count);
+              hesolved=result.count;
+            })
+            await lc.getleetcode(lcurl,function(result){
+              console.log('lcres',result);
+              lcsolved=result.count;
+            })
+            await sp.getspoj(spurl,function(result){
+              console.log('spres',result);
+              spojsolved=result.score;
+            })
+            await ib.getInterviewBit(iburl,function(result){
+              console.log('ibres',result);
+              ibsolved=result.score;
+            })
+
+            var myquery = { username: data.username };
+  var newvalues = { $set: {hackerearth_solved: hesolved, codechef_solved: ccsolved, codeforces_solved: cfsolved, leetcode_solved: lcsolved, interviewbit_solved: ibsolved, hackerrank_solved: hrsolved, spoj_solved: spojsolved } };
+  user.updateOne(myquery, newvalues, function(err, res) {
+    if (err) throw err;
+    console.log("1 document updated");
+  });
+
+           console.log(stat);
+           console.log(cfsolved);
+           console.log(ccsolved);
+
+
             res.redirect('/dashboard');
          }
          else
          {
-           console.log("O00opsie");
            res.redirect('/login');
          }
        });
@@ -125,8 +195,31 @@ app.post('/login',  function(req, res){
       //  }
 })
 
-app.get('/dashboard',(req,res)=>{
-    res.sendFile(__dirname+'/frontend/HTML/dashboard.html');
+app.get('/dashboard',isAuth,(req,res)=> {
+   var usr = req.session.user
+   var a=[]
+   user.find({username: usr},async function(err, data){
+    await  a.push(data[0].codechef_solved)
+    await  a.push(data[0].codeforces_solved)
+    await  a.push(data[0].interviewbit_solved)
+    await  a.push(data[0].leetcode_solved)
+    await a.push(data[0].hackerrank_solved)
+    await  a.push(data[0].hackerearth_solved)
+    await  a.push(data[0].spoj_solved)
+    
+
+    
+
+    
+
+     
+
+     
+     console.log(a);
+     res.render('dashboard',{a})
+   })
+  
+    
 })
 // app.get("/home", function(req, res){
 //     const cc=require('./Scrapers/codechef')
@@ -151,3 +244,11 @@ app.get('/dashboard',(req,res)=>{
 // he.getHackerearth(heurl,function(result){
 //     console.log('result',result);
 // });
+
+app.get('/logout', function(req, res){
+  req.session.destroy((err)=>{
+      if(err) throw err;
+      res.redirect('/')
+  
+  })
+})  
